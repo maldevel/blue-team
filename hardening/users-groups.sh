@@ -38,7 +38,7 @@ useradd -D -f 30
 # Prevent root-owned files from accidentally becoming accessible to non-privileged users
 usermod -g 0 root
 
-# cracklib installation
+# Cracklib installation
 apt -y install libpam-cracklib
 
 # Set minimum password length
@@ -51,7 +51,7 @@ sed -i "s/\bdifok=3\b/& reject_username/" /etc/pam.d/common-password
 sed -i "s/\bpam_cracklib.so\b/& minclass=4/" /etc/pam.d/common-password
 sed -i "s/\breject_username\b/& dcredit=-1 ucredit=-1 ocredit=-1 lcredit=-1/" /etc/pam.d/common-password
 
-# Reject passwords which contain more than 2 same consecutive characters.
+# Reject passwords which contain more than 2 same consecutive characters
 sed -i "s/\bminclass=3\b/& maxrepeat=2/" /etc/pam.d/common-password
 
 # Remember last 24 passwords
