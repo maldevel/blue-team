@@ -83,5 +83,4 @@ chmod 644 /etc/hosts.allow
 chown root:root /etc/hosts.deny
 chmod 644 /etc/hosts.deny
 
-
 sysctl -w net.ipv4.route.flush=1
