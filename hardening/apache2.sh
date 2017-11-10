@@ -34,7 +34,7 @@ echo "FileETag None" >> /etc/apache2/apache2.conf
 a2dismod -f autoindex
 
 # Remove default page
-rm -f /var/www/html/index.html && touch /var/www/html/index.html
+echo "" > /var/www/html/index.html
 
 # Secure root directory
 echo "<Directory />" >> /etc/apache2/conf-available/security.conf
