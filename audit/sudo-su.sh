@@ -26,6 +26,7 @@
 echo
 echo -e "\e[97m>> sudo/su audit in progress <<"
 echo
+
 echo -e "\e[96m>> Checking sudo installation.."
 installed=$(dpkg-query -W -f='${Status}' sudo 2>/dev/null | grep -c "ok installed")
 if [ $installed -eq 0 ];
