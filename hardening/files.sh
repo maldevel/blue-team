@@ -36,7 +36,7 @@ chown root:root /etc/group
 chmod 644 /etc/group
 
 # Set /etc/gshadow ownership and access permissions.
-chown root:root /etc/gshadow
+chown root:shadow /etc/gshadow
 chmod 640 /etc/group
 
 # Set /etc/security/opasswd ownership and access permissions.
