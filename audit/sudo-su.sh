@@ -37,7 +37,7 @@ else
   echo -e "\e[92msudo is already installed."
 fi
 
-echo
+echo 
 
 echo -e "\e[96m>> Checking if wheel group exists.."
 groupwheel=$(getent group wheel 2>/dev/null | grep -c "wheel")

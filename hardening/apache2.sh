@@ -62,7 +62,7 @@ sed -i "s/SSLCipherSuite HIGH:\!aNULL/SSLCipherSuite HIGH:\!MEDIUM:\!aNULL:\!MD5
 a2enmod headers
 
 # Enable HttpOnly and Secure flags
-echo "Header edit Set-Cookie ^(.*)$ $1;HttpOnly;Secure" >> /etc/apache2/conf-available/security.conf
+echo "Header edit Set-Cookie ^(.*)\$ \$1;HttpOnly;Secure" >> /etc/apache2/conf-available/security.conf
 
 # Clickjacking Attack Protection
 echo "Header always append X-Frame-Options SAMEORIGIN" >> /etc/apache2/conf-available/security.conf
