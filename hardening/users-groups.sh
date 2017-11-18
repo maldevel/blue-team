@@ -52,7 +52,7 @@ sed -i "s/\bpam_cracklib.so\b/& minclass=4/" /etc/pam.d/common-password
 sed -i "s/\breject_username\b/& dcredit=-1 ucredit=-1 ocredit=-1 lcredit=-1/" /etc/pam.d/common-password
 
 # Reject passwords which contain more than 2 same consecutive characters
-sed -i "s/\bminclass=3\b/& maxrepeat=2/" /etc/pam.d/common-password
+sed -i "s/\bminclass=4\b/& maxrepeat=2/" /etc/pam.d/common-password
 
 # Remember last 24 passwords
 sed -i "s/\bpam_unix.so\b/& remember=24/" /etc/pam.d/common-password
