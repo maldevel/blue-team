@@ -238,7 +238,5 @@ else
   echo -e "\e[92mDoS attacks Protection is enabled."
 fi
 
-echo 
-
 echo -e "\e[39m"
 
