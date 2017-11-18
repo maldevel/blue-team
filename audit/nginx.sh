@@ -193,7 +193,5 @@ else
   echo -e "\e[92mX-Robots-Tag is set."
 fi
 
-echo 
-
 echo -e "\e[39m"
 
