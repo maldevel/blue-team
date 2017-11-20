@@ -24,264 +24,238 @@
 
 
 echo
-echo -e "\e[97m>> ssh audit in progress <<"
-echo
+echo -e "\e[1;95m-------------------------[ssh audit in progress]-------------------------"
 
-echo -e "\e[96m>> Checking /etc/ssh/sshd_config.."
+
 fileowner=$(ls -l /etc/ssh/sshd_config| awk '{ print $3 }'|grep -c root)
 if [ $fileowner -eq 0 ];
 then
-  echo -e "\e[91m/etc/ssh/sshd_config is not owned by root..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92m/etc/ssh/sshd_config is owned by root."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking /etc/ssh/sshd_config owner\t\t\t\t\t\t\t$status"
 
 filegroup=$(ls -l /etc/ssh/sshd_config| awk '{ print $4 }'|grep -c root)
 if [ $filegroup -eq 0 ];
 then
-  echo -e "\e[91m/etc/ssh/sshd_config group is not root..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92m/etc/ssh/sshd_config group is root."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking /etc/ssh/sshd_config group\t\t\t\t\t\t\t$status"
 
 fileperms=$(stat --format '%a' /etc/ssh/sshd_config|grep -c 600)
 if [ $fileperms -eq 0 ];
 then
-  echo -e "\e[91m/etc/ssh/sshd_config permissions are not 600..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92m/etc/ssh/sshd_config permissions are 600."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking /etc/ssh/sshd_config file permissions\t\t\t\t\t$status"
 
-echo 
-
-echo -e "\e[96m>> Checking if port has been changed.."
 signature=$(grep -cP '^Port 62111$' /etc/ssh/sshd_config)
 if [ $signature -eq 0 ];
 then
-  echo -e "\e[91mport has not been changed..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92mport has been changed."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking if port has been changed\t\t\t\t\t\t\t$status"
 
-echo 
-
-echo -e "\e[96m>> Checking if Protocol 2 is enabled.."
 signature=$(grep -cP '^Protocol 2$' /etc/ssh/sshd_config)
 if [ $signature -eq 0 ];
 then
-  echo -e "\e[91mProtocol 2 is not enabled..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92mProtocol 2 is enabled."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking if Protocol 2 is enabled\t\t\t\t\t\t\t$status"
 
-echo 
-
-echo -e "\e[96m>> Checking if LogLevel is set to INFO.."
 signature=$(grep -cP '^LogLevel INFO$' /etc/ssh/sshd_config)
 if [ $signature -eq 0 ];
 then
-  echo -e "\e[91mLogLevel is not set to INFO..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92mLogLevel is set to INFO."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking if LogLevel is set to INFO\t\t\t\t\t\t\t$status"
 
-echo 
-
-echo -e "\e[96m>> Checking if MaxAuthTries is set to 3.."
 signature=$(grep -cP '^MaxAuthTries 3$' /etc/ssh/sshd_config)
 if [ $signature -eq 0 ];
 then
-  echo -e "\e[91mMaxAuthTries is not set to 3..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92mMaxAuthTries is set to 3."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking if MaxAuthTries has been configured\t\t\t\t\t$status"
 
-echo 
-
-echo -e "\e[96m>> Checking if IgnoreRhosts is enabled.."
 signature=$(grep -cP '^IgnoreRhosts yes$' /etc/ssh/sshd_config)
 if [ $signature -eq 0 ];
 then
-  echo -e "\e[91mIgnoreRhosts is not enabled..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92mIgnoreRhosts is enabled."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking if IgnoreRhosts is enabled\t\t\t\t\t\t\t$status"
 
-echo 
-
-echo -e "\e[96m>> Checking if HostbasedAuthentication is disabled.."
 signature=$(grep -cP '^HostbasedAuthentication\sno$' /etc/ssh/sshd_config)
 if [ $signature -eq 0 ];
 then
-  echo -e "\e[91mHostbasedAuthentication is not disabled..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92mHostbasedAuthentication is disabled."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking if HostbasedAuthentication is disabled\t\t\t\t\t$status"
 
-echo 
-
-echo -e "\e[96m>> Checking if root login is enabled.."
 signature=$(grep -cP '^PermitRootLogin\sno$' /etc/ssh/sshd_config)
 if [ $signature -eq 0 ];
 then
-  echo -e "\e[91mroot login is not enabled..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92mroot login is enabled."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking if root login is enabled\t\t\t\t\t\t\t$status"
 
-echo 
-
-echo -e "\e[96m>> Checking if Empty Passwords are disabled.."
 signature=$(grep -cP '^PermitEmptyPasswords\sno$' /etc/ssh/sshd_config)
 if [ $signature -eq 0 ];
 then
-  echo -e "\e[91mEmpty Passwords are disabled..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92mEmpty Passwords are disabled."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking if Empty Passwords are disabled\t\t\t\t\t\t$status"
 
-echo 
-
-echo -e "\e[96m>> Checking if users are allowed to set environment options through the SSH daemon.."
 signature=$(grep -cP '^PermitUserEnvironment\sno$' /etc/ssh/sshd_config)
 if [ $signature -eq 0 ];
 then
-  echo -e "\e[91musers are not allowed to set environment options through the SSH daemon..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92musers are allowed to set environment options through the SSH daemon."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking if users are allowed to set environment options\t\t\t\t$status"
 
-echo 
-
-echo -e "\e[96m>> Checking if only approved ciphers are allowed.."
 signature=$(grep -cP '^Ciphers aes256-ctr$' /etc/ssh/sshd_config)
 if [ $signature -eq 0 ];
 then
-  echo -e "\e[91mnon approved ciphers are allowed..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92mapproved ciphers are allowed only."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking if only approved ciphers are allowed\t\t\t\t\t$status"
 
-echo 
-
-echo -e "\e[96m>> Checking if MAC is set.."
 signature=$(grep -cP '^MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-sha2-512,hmac-sha2-256$' /etc/ssh/sshd_config)
 if [ $signature -eq 0 ];
 then
-  echo -e "\e[91mMAC is not set..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92mMAC is set."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking if MAC has been configured\t\t\t\t\t\t\t$status"
 
-echo 
-
-echo -e "\e[96m>> Checking if Idle Timeout is configured.."
 signature=$(grep -cP '^ClientAliveInterval 300$' /etc/ssh/sshd_config)
 if [ $signature -eq 0 ];
 then
-  echo -e "\e[91mIdle Timeout Interval is not configured..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92mIdle Timeout Interval is configured."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking if ClientAliveInterval has been configured\t\t\t\t\t$status"
 
 signature=$(grep -cP '^ClientAliveCountMax 0$' /etc/ssh/sshd_config)
 if [ $signature -eq 0 ];
 then
-  echo -e "\e[91mClient Alive Counter is not configured..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92mClient Alive Counter is configured."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking if ClientAliveCountMax has been configured\t\t\t\t\t$status"
 
-echo 
-
-echo -e "\e[96m>> Checking if Banner is configured.."
 signature=$(grep -cP '^Banner \/etc\/issue\.net$' /etc/ssh/sshd_config)
 if [ $signature -eq 0 ];
 then
-  echo -e "\e[91mBanner is not configured..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92mBanner is configured."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking if Banner has been configured\t\t\t\t\t\t$status"
 
-echo 
-
-echo -e "\e[96m>> Checking /etc/issue.net.."
 fileowner=$(ls -l /etc/issue.net| awk '{ print $3 }'|grep -c root)
 if [ $fileowner -eq 0 ];
 then
-  echo -e "\e[91m/etc/issue.net is not owned by root..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92m/etc/issue.net is owned by root."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking /etc/issue.net owner\t\t\t\t\t\t\t$status"
 
 filegroup=$(ls -l /etc/issue.net| awk '{ print $4 }'|grep -c root)
 if [ $filegroup -eq 0 ];
 then
-  echo -e "\e[91m/etc/issue.net group is not root..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92m/etc/issue.net group is root."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking /etc/issue.net group\t\t\t\t\t\t\t$status"
 
 fileperms=$(stat --format '%a' /etc/issue.net|grep -c 644)
 if [ $fileperms -eq 0 ];
 then
-  echo -e "\e[91m/etc/issue.net permissions are not 644..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92m/etc/issue.net permissions are 644."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking /etc/issue.net file permissions\t\t\t\t\t\t$status"
 
 filemessage=$(cat /etc/issue.net | grep -c "Authorized uses only. All activity may be monitored and reported.")
 if [ $filemessage -eq 0 ];
 then
-  echo -e "\e[91m/etc/issue.net message has not been set..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92m/etc/issue.net message has been set."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking /etc/issue.net text content\t\t\t\t\t\t$status"
 
-echo 
-
-echo -e "\e[96m>> Checking if only wheel group is allowed to access ssh.."
 signature=$(grep -cP '^AllowGroups wheel$' /etc/ssh/sshd_config)
 if [ $signature -eq 0 ];
 then
-  echo -e "\e[91mwheel group is not the only group allowed to access ssh..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92monly wheel group is allowed to access ssh."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking if only wheel group is allowed to access ssh\t\t\t\t$status"
 
-echo 
-
-echo -e "\e[96m>> Checking if X11 forwarding is disabled.."
 signature=$(grep -cP '^#X11Forwarding yes$' /etc/ssh/sshd_config)
 if [ $signature -eq 0 ];
 then
-  echo -e "\e[91mX11 forwarding is not disabled..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92mX11 forwarding is disabled."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking if X11 forwarding is disabled\t\t\t\t\t\t$status"
 
 echo -e "\e[39m"
 
