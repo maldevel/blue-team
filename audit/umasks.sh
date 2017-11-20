@@ -24,30 +24,27 @@
 
 
 echo
-echo -e "\e[97m>> umask audit in progress <<"
-echo
+echo -e "\e[1;95m-------------------------[umask audit in progress]-------------------------"
 
-echo -e "\e[96m>> Checking if umask has been set for users.."
 umasklogin=$(grep -cP '^UMASK\s+077$' /etc/login.defs)
 if [ $umasklogin -eq 0 ];
 then
-  echo -e "\e[91mumask has not been set for users..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92mumask has been set for users."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking if umask has been set for users\t\t\t\t\t\t$status"
 
-echo 
-
-echo -e "\e[96m>> Checking if umask has been set for root.."
 umasklogin=$(grep -cP '^umask\s+077$' /root/.bashrc)
 if [ $umasklogin -eq 0 ];
 then
-  echo -e "\e[91mumask has not been set for root..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92mumask has been set for root."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking if umask has been set for root\t\t\t\t\t\t$status"
 
 echo -e "\e[39m"
 

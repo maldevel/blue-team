@@ -24,72 +24,74 @@
 
 
 echo
-echo -e "\e[97m>> sudo/su audit in progress <<"
-echo
+echo -e "\e[1;95m-------------------------[sudo/su audit in progress]-------------------------"
 
-echo -e "\e[96m>> Checking sudo installation.."
 installed=$(dpkg-query -W -f='${Status}' sudo 2>/dev/null | grep -c "ok installed")
 if [ $installed -eq 0 ];
 then
-  echo -e "\e[91msudo is not installed..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92msudo is already installed."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking sudo installation\t\t\t\t\t\t\t$status"
 
-echo 
-
-echo -e "\e[96m>> Checking if wheel group exists.."
 groupwheel=$(getent group wheel 2>/dev/null | grep -c "wheel")
 if [ $groupwheel -eq 0 ];
 then
-  echo -e "\e[91mwheel does not exist..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92mwheel group exists."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking if wheel group exists\t\t\t\t\t\t$status"
 
-echo
-
-echo -e "\e[96m>> Checking if $1 is in group wheel.."
-userwheel=$(groups $1|grep -c "\bwheel\b")
-if [ $userwheel -eq 0 ];
+userexists=$(getent passwd $1 2>/dev/null | grep -c $1)
+if [ $userexists -eq 0 ];
 then
-  echo -e "\e[91m$1 is not in group wheel..\e[39m"
-  #exit
+  status="\e[91m[ BAD ]"
+  echo -e "\e[39m[*] Checking if user exists\t\t\t\t\t\t\t$status\e[39m"
 else
-  echo -e "\e[92m$1 is in group wheel."
+  status="\e[92m[ GOOD ]"
+  echo -e "\e[39m[*] Checking if user exists\t\t\t\t\t\t\t$status\e[39m"
+  
+  userwheel=$(groups $1|grep -c "\bwheel\b")
+  if [ $userwheel -eq 0 ];
+  then
+    status="\e[91m[ BAD ]"
+    #exit
+  else
+    status="\e[92m[ GOOD ]"
+  fi
+echo -e "\e[39m[*] Checking if $1 is in group wheel\t\t\t\t\t\t$status"
 fi
 
-echo 
-
-echo -e "\e[96m>> Checking if su usage is restricted to wheel group only.."
 suwheel=$(grep -cP '^auth\s+required\s+pam_wheel\.so\s+group=wheel\s+debug$' /etc/pam.d/su)
 if [ $suwheel -eq 0 ];
 then
-  echo -e "\e[91msu usage is not restricted to wheel group only..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92msu usage is restricted to wheel group only."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking if su usage is restricted to wheel group only\t\t\t$status"
 
-echo 
-
-echo -e "\e[96m>> Checking if sudo usage is restricted to wheel group only.."
-if [ ! -f /etc/sudoers ]; then
-  echo -e "\e[91msudo usage is not restricted to wheel group only..\e[39m"
-  echo
+if [ ! -f /etc/sudoers ]; 
+then
+  status="\e[91m[ BAD ]"
+  echo -e "\e[39m[*] Checking if sudo usage is restricted to wheel group only\t\t\t$status\e[39m"
   exit
 fi
 
 sudowheel=$(grep -cP '^%wheel\s+ALL=\(ALL:ALL\)\s+ALL$' /etc/sudoers)
 if [ $sudowheel -eq 0 ];
 then
-  echo -e "\e[91msudo usage is not restricted to wheel group only..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92msudo usage is restricted to wheel group only."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking if sudo usage is restricted to wheel group only\t\t\t$status"
 
 echo -e "\e[39m"
 
