@@ -24,281 +24,283 @@
 
 
 echo
-echo -e "\e[97m>> system files audit in progress <<"
-echo
+echo -e "\e[1;95m-------------------------[system files audit in progress]-------------------------"
 
-echo -e "\e[96m>> Checking /etc/passwd.."
 fileowner=$(ls -l /etc/passwd| awk '{ print $3 }'|grep -c root)
 if [ $fileowner -eq 0 ];
 then
-  echo -e "\e[91m/etc/passwd is not owned by root..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92m/etc/passwd is owned by root."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking /etc/passwd owner\t\t\t\t\t\t\t\t$status"
 
 filegroup=$(ls -l /etc/passwd| awk '{ print $4 }'|grep -c root)
 if [ $filegroup -eq 0 ];
 then
-  echo -e "\e[91m/etc/passwd group is not root..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92m/etc/passwd group is root."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking /etc/passwd group\t\t\t\t\t\t\t\t$status"
 
 fileperms=$(stat --format '%a' /etc/passwd|grep -c 644)
 if [ $fileperms -eq 0 ];
 then
-  echo -e "\e[91m/etc/passwd permissions are not 644..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92m/etc/passwd permissions are 644."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking /etc/passwd file permissions\t\t\t\t\t\t$status"
 
-echo 
-
-echo -e "\e[96m>> Checking /etc/shadow.."
 fileowner=$(ls -l /etc/shadow| awk '{ print $3 }'|grep -c root)
 if [ $fileowner -eq 0 ];
 then
-  echo -e "\e[91m/etc/shadow is not owned by root..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92m/etc/shadow is owned by root."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking /etc/shadow owner\t\t\t\t\t\t\t\t$status"
 
 filegroup=$(ls -l /etc/shadow| awk '{ print $4 }'|grep -c shadow)
 if [ $filegroup -eq 0 ];
 then
-  echo -e "\e[91m/etc/shadow group is not root..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92m/etc/shadow group is root."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking /etc/shadow group\t\t\t\t\t\t\t\t$status"
 
 fileperms=$(stat --format '%a' /etc/shadow|grep -c 640)
 if [ $fileperms -eq 0 ];
 then
-  echo -e "\e[91m/etc/shadow permissions are not 640..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92m/etc/shadow permissions are 640."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking /etc/shadow file permissions\t\t\t\t\t\t$status"
 
-echo 
-
-echo -e "\e[96m>> Checking /etc/group.."
 fileowner=$(ls -l /etc/group| awk '{ print $3 }'|grep -c root)
 if [ $fileowner -eq 0 ];
 then
-  echo -e "\e[91m/etc/group is not owned by root..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92m/etc/group is owned by root."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking /etc/group owner\t\t\t\t\t\t\t\t$status"
 
 filegroup=$(ls -l /etc/group| awk '{ print $4 }'|grep -c root)
 if [ $filegroup -eq 0 ];
 then
-  echo -e "\e[91m/etc/group group is not root..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92m/etc/group group is root."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking /etc/group group\t\t\t\t\t\t\t\t$status"
 
 fileperms=$(stat --format '%a' /etc/group|grep -c 644)
 if [ $fileperms -eq 0 ];
 then
-  echo -e "\e[91m/etc/group permissions are not 644..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92m/etc/group permissions are 644."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking /etc/group file permissions\t\t\t\t\t\t$status"
 
-echo 
-
-echo -e "\e[96m>> Checking /etc/gshadow.."
 fileowner=$(ls -l /etc/gshadow| awk '{ print $3 }'|grep -c root)
 if [ $fileowner -eq 0 ];
 then
-  echo -e "\e[91m/etc/gshadow is not owned by root..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92m/etc/gshadow is owned by root."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking /etc/gshadow owner\t\t\t\t\t\t\t\t$status"
 
 filegroup=$(ls -l /etc/gshadow| awk '{ print $4 }'|grep -c shadow)
 if [ $filegroup -eq 0 ];
 then
-  echo -e "\e[91m/etc/gshadow group is not root..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92m/etc/gshadow group is root."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking /etc/gshadow group\t\t\t\t\t\t\t\t$status"
 
 fileperms=$(stat --format '%a' /etc/gshadow|grep -c 640)
 if [ $fileperms -eq 0 ];
 then
-  echo -e "\e[91m/etc/gshadow permissions are not 640..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92m/etc/gshadow permissions are 640."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking /etc/gshadow file permissions\t\t\t\t\t\t$status"
 
-echo 
-
-echo -e "\e[96m>> Checking /etc/opasswd.."
 if [ -f /etc/opasswd ]; then
 
     fileowner=$(ls -l /etc/opasswd| awk '{ print $3 }'|grep -c root)
     if [ $fileowner -eq 0 ];
     then
-      echo -e "\e[91m/etc/opasswd is not owned by root..\e[39m"
+      status="\e[91m[ BAD ]"
       #exit
     else
-      echo -e "\e[92m/etc/opasswd is owned by root."
+      status="\e[92m[ GOOD ]"
     fi
-
+    echo -e "\e[39m[*] Checking /etc/opasswd owner\t\t\t\t\t\t\t\t$status"
+    
     filegroup=$(ls -l /etc/opasswd| awk '{ print $4 }'|grep -c root)
     if [ $filegroup -eq 0 ];
     then
-      echo -e "\e[91m/etc/opasswd group is not root..\e[39m"
+      status="\e[91m[ BAD ]"
       #exit
     else
-      echo -e "\e[92m/etc/opasswd group is root."
+      status="\e[92m[ GOOD ]"
     fi
-
+    echo -e "\e[39m[*] Checking /etc/opasswd group\t\t\t\t\t\t\t\t$status"
+    
     fileperms=$(stat --format '%a' /etc/opasswd|grep -c 600)
     if [ $fileperms -eq 0 ];
     then
-      echo -e "\e[91m/etc/opasswd permissions are not 600..\e[39m"
+      status="\e[91m[ BAD ]"
       #exit
     else
-      echo -e "\e[92m/etc/opasswd permissions are 600."
+      status="\e[92m[ GOOD ]"
     fi
+    echo -e "\e[39m[*] Checking /etc/opasswd file permissions\t\t\t\t\t\t$status"
 else
-    echo -e "\e[92m/etc/opasswd does not exist."
+    status="\e[91m[ BAD ]"
+    echo -e "\e[39m[*] Checking if /etc/opasswd exists\t\t\t\t\t\t\t$status"
 fi
 
-echo 
-
-echo -e "\e[96m>> Checking /etc/passwd-.."
 fileowner=$(ls -l /etc/passwd-| awk '{ print $3 }'|grep -c root)
 if [ $fileowner -eq 0 ];
 then
-  echo -e "\e[91m/etc/passwd- is not owned by root..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92m/etc/passwd- is owned by root."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking /etc/passwd- owner\t\t\t\t\t\t\t\t$status"
 
 filegroup=$(ls -l /etc/passwd-| awk '{ print $4 }'|grep -c root)
 if [ $filegroup -eq 0 ];
 then
-  echo -e "\e[91m/etc/passwd- group is not root..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92m/etc/passwd- group is root."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking /etc/passwd- group\t\t\t\t\t\t\t\t$status"
 
 fileperms=$(stat --format '%a' /etc/passwd-|grep -c 600)
 if [ $fileperms -eq 0 ];
 then
-  echo -e "\e[91m/etc/passwd- permissions are not 600..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92m/etc/passwd- permissions are 600."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking /etc/passwd- file permissions\t\t\t\t\t\t$status"
 
-echo 
-
-echo -e "\e[96m>> Checking /etc/shadow-.."
 fileowner=$(ls -l /etc/shadow-| awk '{ print $3 }'|grep -c root)
 if [ $fileowner -eq 0 ];
 then
-  echo -e "\e[91m/etc/shadow- is not owned by root..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92m/etc/shadow- is owned by root."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking /etc/shadow- owner\t\t\t\t\t\t\t\t$status"
 
 filegroup=$(ls -l /etc/shadow-| awk '{ print $4 }'|grep -c root)
 if [ $filegroup -eq 0 ];
 then
-  echo -e "\e[91m/etc/shadow- group is not root..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92m/etc/shadow- group is root."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking /etc/shadow- group\t\t\t\t\t\t\t\t$status"
 
 fileperms=$(stat --format '%a' /etc/shadow-|grep -c 600)
 if [ $fileperms -eq 0 ];
 then
-  echo -e "\e[91m/etc/shadow- permissions are not 600..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92m/etc/shadow- permissions are 600."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking /etc/shadow- file permissions\t\t\t\t\t\t$status"
 
-echo 
-
-echo -e "\e[96m>> Checking /etc/group-.."
 fileowner=$(ls -l /etc/group-| awk '{ print $3 }'|grep -c root)
 if [ $fileowner -eq 0 ];
 then
-  echo -e "\e[91m/etc/group- is not owned by root..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92m/etc/group- is owned by root."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking /etc/group- owner\t\t\t\t\t\t\t\t$status"
 
 filegroup=$(ls -l /etc/group-| awk '{ print $4 }'|grep -c root)
 if [ $filegroup -eq 0 ];
 then
-  echo -e "\e[91m/etc/group- group is not root..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92m/etc/group- group is root."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking /etc/group- group\t\t\t\t\t\t\t\t$status"
 
 fileperms=$(stat --format '%a' /etc/group-|grep -c 600)
 if [ $fileperms -eq 0 ];
 then
-  echo -e "\e[91m/etc/group- permissions are not 600..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92m/etc/group- permissions are 600."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking /etc/group- file permissions\t\t\t\t\t\t$status"
 
-echo 
-
-echo -e "\e[96m>> Checking /etc/gshadow-.."
 fileowner=$(ls -l /etc/gshadow-| awk '{ print $3 }'|grep -c root)
 if [ $fileowner -eq 0 ];
 then
-  echo -e "\e[91m/etc/gshadow- is not owned by root..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92m/etc/gshadow- is owned by root."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking /etc/gshadow- owner\t\t\t\t\t\t\t$status"
 
 filegroup=$(ls -l /etc/gshadow-| awk '{ print $4 }'|grep -c root)
 if [ $filegroup -eq 0 ];
 then
-  echo -e "\e[91m/etc/gshadow- group is not root..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92m/etc/gshadow- group is root."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking /etc/gshadow- group\t\t\t\t\t\t\t$status"
 
 fileperms=$(stat --format '%a' /etc/gshadow-|grep -c 600)
 if [ $fileperms -eq 0 ];
 then
-  echo -e "\e[91m/etc/gshadow- permissions are not 600..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92m/etc/gshadow- permissions are 600."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking /etc/gshadow- file permissions\t\t\t\t\t\t$status"
 
 echo -e "\e[39m"
 
