@@ -26,7 +26,6 @@
 echo
 echo -e "\e[1;95m-------------------------[nginx audit in progress]-------------------------"
 
-
 installed=$(dpkg-query -W -f='${Status}' nginx 2>/dev/null | grep -c "ok installed")
 if [ $installed -eq 0 ];
 then

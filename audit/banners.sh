@@ -24,123 +24,127 @@
 
 
 echo
-echo -e "\e[97m>> banners audit in progress <<"
-echo
+echo -e "\e[1;95m-------------------------[banners audit in progress]-------------------------"
 
-echo -e "\e[96m>> Checking /etc/motd.."
 fileowner=$(ls -l /etc/motd| awk '{ print $3 }'|grep -c root)
 if [ $fileowner -eq 0 ];
 then
-  echo -e "\e[91m/etc/motd is not owned by root..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92m/etc/motd is owned by root."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking /etc/motd owner\t\t\t\t\t\t\t\t$status"
 
 filegroup=$(ls -l /etc/motd| awk '{ print $4 }'|grep -c root)
 if [ $filegroup -eq 0 ];
 then
-  echo -e "\e[91m/etc/motd group is not root..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92m/etc/motd group is root."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking /etc/motd group\t\t\t\t\t\t\t\t$status"
 
 fileperms=$(stat --format '%a' /etc/motd|grep -c 644)
 if [ $fileperms -eq 0 ];
 then
-  echo -e "\e[91m/etc/motd permissions are not 644..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92m/etc/motd permissions are 644."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking /etc/motd file permissions\t\t\t\t\t\t\t$status"
 
 filemessage=$(cat /etc/motd | grep -c "Authorized uses only. All activity may be monitored and reported.")
 if [ $filemessage -eq 0 ];
 then
-  echo -e "\e[91m/etc/motd message has not been set..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92m/etc/motd message has been set."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking /etc/motd content\t\t\t\t\t\t\t\t$status"
 
-echo 
-
-echo -e "\e[96m>> Checking /etc/issue.."
 fileowner=$(ls -l /etc/issue| awk '{ print $3 }'|grep -c root)
 if [ $fileowner -eq 0 ];
 then
-  echo -e "\e[91m/etc/issue is not owned by root..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92m/etc/issue is owned by root."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking /etc/issue owner\t\t\t\t\t\t\t\t$status"
 
 filegroup=$(ls -l /etc/issue| awk '{ print $4 }'|grep -c root)
 if [ $filegroup -eq 0 ];
 then
-  echo -e "\e[91m/etc/issue group is not root..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92m/etc/issue group is root."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking /etc/issue group\t\t\t\t\t\t\t\t$status"
 
 fileperms=$(stat --format '%a' /etc/issue|grep -c 644)
 if [ $fileperms -eq 0 ];
 then
-  echo -e "\e[91m/etc/issue permissions are not 644..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92m/etc/issue permissions are 644."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking /etc/issue file permissions\t\t\t\t\t\t$status"
 
 filemessage=$(cat /etc/issue | grep -c "Authorized uses only. All activity may be monitored and reported.")
 if [ $filemessage -eq 0 ];
 then
-  echo -e "\e[91m/etc/issue message has not been set..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92m/etc/issue message has been set."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking /etc/issue content\t\t\t\t\t\t\t\t$status"
 
-echo 
-
-echo -e "\e[96m>> Checking /etc/issue.net.."
 fileowner=$(ls -l /etc/issue.net| awk '{ print $3 }'|grep -c root)
 if [ $fileowner -eq 0 ];
 then
-  echo -e "\e[91m/etc/issue.net is not owned by root..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92m/etc/issue.net is owned by root."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking /etc/issue.net owner\t\t\t\t\t\t\t$status"
 
 filegroup=$(ls -l /etc/issue.net| awk '{ print $4 }'|grep -c root)
 if [ $filegroup -eq 0 ];
 then
-  echo -e "\e[91m/etc/issue.net group is not root..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92m/etc/issue.net group is root."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking /etc/issue.net group\t\t\t\t\t\t\t$status"
 
 fileperms=$(stat --format '%a' /etc/issue.net|grep -c 644)
 if [ $fileperms -eq 0 ];
 then
-  echo -e "\e[91m/etc/issue.net permissions are not 644..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92m/etc/issue.net permissions are 644."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking /etc/issue.net file permissions\t\t\t\t\t\t$status"
 
 filemessage=$(cat /etc/issue.net | grep -c "Authorized uses only. All activity may be monitored and reported.")
 if [ $filemessage -eq 0 ];
 then
-  echo -e "\e[91m/etc/issue.net message has not been set..\e[39m"
+  status="\e[91m[ BAD ]"
   #exit
 else
-  echo -e "\e[92m/etc/issue.net message has been set."
+  status="\e[92m[ GOOD ]"
 fi
+echo -e "\e[39m[*] Checking /etc/issue.net content\t\t\t\t\t\t\t$status"
 
-echo -e "\e[39m"
+echo -e "\033[0m"
 

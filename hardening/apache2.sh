@@ -82,4 +82,4 @@ echo "Header set Content-Security-Policy \"default-src 'self';\"" >> /etc/apache
 # Prevent DoS attacks - Limit timeout
 sed -i "s/Timeout 300/Timeout 60/" /etc/apache2/apache2.conf
 
-service apache restart
+service apache2 restart
