@@ -167,5 +167,5 @@ else
 fi
 echo -e "\e[39m[*] Checking if X-Robots-Tag is set\t\t\t\t\t\t\t$status"
 
-echo -e "\e[39m"
+echo -e "\033[0m"
 

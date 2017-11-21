@@ -175,5 +175,5 @@ else
 fi
 echo -e "\e[39m[*] Checking delay time between login prompts\t\t\t\t\t\t$status"
 
-echo -e "\e[39m"
+echo -e "\033[0m"
 

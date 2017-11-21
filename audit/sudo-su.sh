@@ -93,5 +93,5 @@ else
 fi
 echo -e "\e[39m[*] Checking if sudo usage is restricted to wheel group only\t\t\t\t$status"
 
-echo -e "\e[39m"
+echo -e "\033[0m"
 
