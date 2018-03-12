@@ -69,7 +69,7 @@ sed -i "s/#Banner none/Banner \/etc\/issue\.net/g" /etc/ssh/sshd_config
 echo "Welcome" > /etc/issue.net
 
 # Allow wheel group use ssh
-echo "AllowGroups wheel" >> /etc/ssh/sshd_config
+#echo "AllowGroups wheel" >> /etc/ssh/sshd_config
 
 # Disable X11 forwarding
 sed -i "s/X11Forwarding yes/#X11Forwarding yes/g" /etc/ssh/sshd_config
