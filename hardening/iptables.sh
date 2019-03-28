@@ -62,3 +62,5 @@ iptables -P INPUT DROP
 # Save rules
 iptables-save > /etc/iptables/rules.v4
 
+# Apply and confirm
+iptables-apply -t 40 /etc/iptables/rules.v4
