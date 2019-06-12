@@ -59,6 +59,9 @@ iptables -P OUTPUT ACCEPT
 # Set default deny firewall policy
 iptables -P INPUT DROP
 
+# Set default deny firewall policy
+iptables -P FORWARD DROP
+
 # Save rules
 iptables-save > /etc/iptables/rules.v4
 
