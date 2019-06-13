@@ -2,7 +2,6 @@
 
 #
 # GPLv3
-# Twelvesec (c) Copyright 2019
 # Debian 9 new installed default system
 # @maldevel
 # v0.2.1
