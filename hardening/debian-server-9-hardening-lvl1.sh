@@ -1,9 +1,12 @@
 #!/bin/sh
 
+#
 # GPLv3
 # Twelvesec (c) Copyright 2019
-# Debian 9 default system
-# maldevel
+# Debian 9 new installed default system
+# @maldevel
+# v0.1
+#
 
 if [[ $EUID -ne 0 ]]; then
    echo "This script must be run as root" 1>&2
@@ -286,6 +289,13 @@ printf '\n%s\n' 'install dccp /bin/true' >> /etc/modprobe.d/dccp.conf
 # 3.2.9 Ensure IPv6 router advertisements are not accepted
 # 3.2.8 Ensure TCP SYN Cookies is enabled
 # 3.2.7 Ensure Reverse Path Filtering is enabled
+# 3.2.6 Ensure bogus ICMP responses are ignored
+# 3.2.5 Ensure broadcast ICMP requests are ignored
+# 3.2.3 Ensure secure ICMP redirects are not accepted
+# 3.2.2 Ensure ICMP redirects are not accepted
+# 3.2.1 Ensure source routed packets are not accepted
+# 3.1.2 Ensure packet redirect sending is disabled
+# 3.1.1 Ensure IP forwarding is disabled
 
 
 cp /etc/sysctl.d/99-sysctl.conf /etc/sysctl.d/99-sysctl.conf.bak
@@ -293,16 +303,124 @@ printf '\n%s\n' 'net.ipv6.conf.all.accept_ra = 0' >> /etc/sysctl.d/99-sysctl.con
 printf '\n%s\n' 'net.ipv6.conf.default.accept_ra = 0' >> /etc/sysctl.d/99-sysctl.conf
 sysctl -w net.ipv6.conf.all.accept_ra=0
 sysctl -w net.ipv6.conf.default.accept_ra=0
-sysctl -w net.ipv6.route.flush=1
 sed -i "s/#net.ipv4.tcp_syncookies=1/net.ipv4.tcp_syncookies=1/g" /etc/sysctl.d/99-sysctl.conf
 sysctl -w net.ipv4.tcp_syncookies=1
-sysctl -w net.ipv4.route.flush=1
 sed -i "s/#net.ipv4.conf.all.rp_filter=1/net.ipv4.conf.all.rp_filter=1/g" /etc/sysctl.d/99-sysctl.conf
 sed -i "s/#net.ipv4.conf.default.rp_filter=1/net.ipv4.conf.default.rp_filter=1/g" /etc/sysctl.d/99-sysctl.conf
 sysctl -w net.ipv4.conf.all.rp_filter=1
 sysctl -w net.ipv4.conf.default.rp_filter=1
+printf '\n%s\n' 'net.ipv4.icmp_ignore_bogus_error_responses = 1' >> /etc/sysctl.d/99-sysctl.conf
+sysctl -w net.ipv4.icmp_ignore_bogus_error_responses=1
+printf '\n%s\n' 'net.ipv4.icmp_echo_ignore_broadcasts = 1' >> /etc/sysctl.d/99-sysctl.conf
+sysctl -w net.ipv4.icmp_echo_ignore_broadcasts=1
+sed -i "s/#net.ipv4.conf.all.log_martians.*=.*1/net.ipv4.conf.all.log_martians = 1/g" /etc/sysctl.d/99-sysctl.conf
+printf '\n%s\n' 'net.ipv4.conf.default.log_martians = 1' >> /etc/sysctl.d/99-sysctl.conf
+sysctl -w net.ipv4.conf.all.log_martians=1
+sysctl -w net.ipv4.conf.default.log_martians=1
+sed -i "s/# net.ipv4.conf.all.secure_redirects.*=.*1/net.ipv4.conf.all.secure_redirects = 0/g" /etc/sysctl.d/99-sysctl.conf
+printf '\n%s\n' 'net.ipv4.conf.default.secure_redirects = 0' >> /etc/sysctl.d/99-sysctl.conf
+sysctl -w net.ipv4.conf.all.secure_redirects=0
+sysctl -w net.ipv4.conf.default.secure_redirects=0
+sed -i "s/#net.ipv4.conf.all.accept_redirects.*=.*0/net.ipv4.conf.all.accept_redirects = 0/g" /etc/sysctl.d/99-sysctl.conf
+printf '\n%s\n' 'net.ipv4.conf.default.accept_redirects = 0' >> /etc/sysctl.d/99-sysctl.conf
+sed -i "s/#net.ipv6.conf.all.accept_redirects.*=.*0/net.ipv6.conf.all.accept_redirects = 0/g" /etc/sysctl.d/99-sysctl.conf
+printf '\n%s\n' 'net.ipv6.conf.default.accept_redirects = 0' >> /etc/sysctl.d/99-sysctl.conf
+sysctl -w net.ipv4.conf.all.accept_redirects=0
+sysctl -w net.ipv4.conf.default.accept_redirects=0
+sysctl -w net.ipv6.conf.all.accept_redirects=0
+sysctl -w net.ipv6.conf.default.accept_redirects=0
+sed -i "s/#net.ipv4.conf.all.accept_source_route.*=.*0/net.ipv4.conf.all.accept_source_route = 0/g" /etc/sysctl.d/99-sysctl.conf
+printf '\n%s\n' 'net.ipv4.conf.default.accept_source_route = 0' >> /etc/sysctl.d/99-sysctl.conf
+sed -i "s/#net.ipv6.conf.all.accept_source_route.*=.*0/net.ipv6.conf.all.accept_source_route = 0/g" /etc/sysctl.d/99-sysctl.conf
+printf '\n%s\n' 'net.ipv6.conf.default.accept_source_route = 0' >> /etc/sysctl.d/99-sysctl.conf
+sysctl -w net.ipv4.conf.all.accept_source_route=0
+sysctl -w net.ipv4.conf.default.accept_source_route=0
+sysctl -w net.ipv6.conf.all.accept_source_route=0
+sysctl -w net.ipv6.conf.default.accept_source_route=0
+sed -i "s/#net.ipv4.conf.all.send_redirects.*=.*0/net.ipv4.conf.all.send_redirects = 0/g" /etc/sysctl.d/99-sysctl.conf
+printf '\n%s\n' 'net.ipv4.conf.default.send_redirects = 0' >> /etc/sysctl.d/99-sysctl.conf
+sysctl -w net.ipv4.conf.all.send_redirects=0
+sysctl -w net.ipv4.conf.default.send_redirects=0
+sed -i "s/#net.ipv4.ip_forward=1/net.ipv4.ip_forward = 0/g" /etc/sysctl.d/99-sysctl.conf
+sed -i "s/#net.ipv6.conf.all.forwarding=1/net.ipv6.conf.all.forwarding = 0/g" /etc/sysctl.d/99-sysctl.conf
+sysctl -w net.ipv4.ip_forward=0
+sysctl -w net.ipv6.conf.all.forwarding=0
+
 sysctl -w net.ipv4.route.flush=1
+sysctl -w net.ipv6.route.flush=1
 
 
-# 3.2.6 Ensure bogus ICMP responses are ignored
+# 2.2.2 Ensure X Window System is not installed
+
+
+apt-get remove xserver-xorg*
+
+
+# 1.7.1.2 Ensure local login warning banner is configured properly
+
+
+ echo "Welcome" > /etc/issue
+
+
+ # 1.7.1.1 Ensure message of the day is configured properly
+
+
+ echo "Welcome" > /etc/motd
+
+
+ # 1.5.1 Ensure core dumps are restricted
+
+
+cp /etc/security/limits.conf /etc/security/limits.conf.bak
+cp /etc/sysctl.d/99-sysctl.conf /etc/sysctl.d/99-sysctl.conf.bak2
+printf '\n%s\n' '* hard core 0' >> /etc/security/limits.conf
+printf '\n%s\n' 'fs.suid_dumpable = 0' >> /etc/sysctl.d/99-sysctl.conf
+sysctl -w fs.suid_dumpable=0
+
+
+# 1.4.1 Ensure permissions on bootloader config are configured
+
+
+chown root:root /boot/grub/grub.cfg
+chmod og-rwx /boot/grub/grub.cfg
+
+
+# 1.1.1.5 Ensure mounting of udf filesystems is disabled
+
+
+cp /etc/modprobe.d/udf.conf /etc/modprobe.d/udf.conf.bak
+printf '\n%s\n' 'install udf /bin/true' >> /etc/modprobe.d/udf.conf
+rmmod udf
+
+
+# 1.1.1.4 Ensure mounting of hfsplus filesystems is disabled
+
+
+cp /etc/modprobe.d/hfsplus.conf /etc/modprobe.d/hfsplus.conf.bak
+printf '\n%s\n' 'install hfsplus /bin/true' >> /etc/modprobe.d/hfsplus.conf
+rmmod hfsplus
+
+
+# 1.1.1.3 Ensure mounting of hfs filesystems is disabled
+
+
+cp /etc/modprobe.d/hfs.conf /etc/modprobe.d/hfs.conf.bak
+printf '\n%s\n' 'install hfs /bin/true' >> /etc/modprobe.d/hfs.conf
+rmmod hfs
+
+
+# 1.1.1.2 Ensure mounting of jffs2 filesystems is disabled
+
+
+cp /etc/modprobe.d/jffs2.conf /etc/modprobe.d/jffs2.conf.bak
+printf '\n%s\n' 'install jffs2 /bin/true' >> /etc/modprobe.d/jffs2.conf
+rmmod jffs2
+
+
+# 1.1.1.1 Ensure mounting of freevxfs filesystems is disabled
+
+
+cp /etc/modprobe.d/freevxfs.conf /etc/modprobe.d/freevxfs.conf.bak
+printf '\n%s\n' 'install freevxfs /bin/true' >> /etc/modprobe.d/freevxfs.conf
+rmmod freevxfs
 
