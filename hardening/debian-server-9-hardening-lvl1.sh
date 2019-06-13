@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 #
 # GPLv3
@@ -8,9 +8,9 @@
 # v0.2.1
 #
 
-if [[ $EUID -ne 0 ]]; then
-   echo "This script must be run as root" 1>&2
-   exit 1
+if [[ "$EUID" -ne 0 ]]; then
+  echo "Please run this script as root." 1>&2
+  exit 1
 fi
 
 # 1.8 Ensure updates, patches, and additional security software are installed
