@@ -229,6 +229,9 @@ iptables -A INPUT -p tcp ! --syn -m state --state NEW -j DROP
 iptables -A INPUT -p tcp --tcp-flags ALL ALL -j DROP
 # Allow internal traffic on the loopback device
 iptables -A INPUT -i lo -j ACCEPT
+# Allow HTTP/s access
+iptables -A INPUT -p tcp -m tcp --dport 80 -j ACCEPT
+iptables -A INPUT -p tcp -m tcp --dport 443 -j ACCEPT
 # Allow ssh access
 iptables -A INPUT -p tcp -m tcp --dport 62111 -j ACCEPT
 # Allow established connections
